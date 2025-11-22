@@ -1,0 +1,56 @@
+{% include "_navbar.html" %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    rel="stylesheet">
+
+</head>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<body>
+    <h1>Статистика бронювань</h1>
+
+<h2>Доходи по місяцях</h2>
+<canvas id="incomeChart" width="600" height="300"></canvas>
+
+<h2>Кількість бронювань по готелях</h2>
+<canvas id="hotelChart" width="600" height="300"></canvas>
+
+<script>
+    const incomeData = {{ income_data|safe }};
+    const hotelData = {{ hotel_data|safe }};
+
+    // Графік доходів
+    new Chart(document.getElementById('incomeChart'), {
+        type: 'line',
+        data: {
+            labels: incomeData.labels,
+            datasets: [{
+                label: 'Дохід (грн)',
+                data: incomeData.values,
+                borderColor: 'blue',
+                borderWidth: 2
+            }]
+        }
+    });
+
+    // Графік бронювань
+    new Chart(document.getElementById('hotelChart'), {
+        type: 'bar',
+        data: {
+            labels: hotelData.labels,
+            datasets: [{
+                label: 'Кількість бронювань',
+                data: hotelData.values,
+                backgroundColor: 'green'
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
